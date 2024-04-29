@@ -1,3 +1,9 @@
+# To Run
+Make sure you are on a Linux machine that has Python3 and some distribution of Anaconda installed for environment management.
+
+
+# Below is the README from https://github.com/dselsam/neurosat/
+
 # NeuroSAT
 
 NeuroSAT is an experimental SAT solver that is learned using single-bit supervision only. We train it as a classifier to predict satisfiability of random SAT problems and it learns to search for satisfying assignments to explain that bit of supervision. When it guesses _sat_, we can almost always decode the satisfying assignment it has found from its activations. It can often find solutions to problems that are bigger, harder, and from entirely different domains than those it saw during training.

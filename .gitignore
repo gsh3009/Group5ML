@@ -2,3 +2,4 @@ data/*
 dimacs/*
 snapshots/*
 python/__pycache__
+python/PyMiniSolvers
