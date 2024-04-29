@@ -81,10 +81,17 @@ def GenerateProblem(main_set_as_list, answer):
         # return main_set_as_list, subsets
 
 class question:
+    '''
+    Object used to store all the information of a generated problem
+    arr: Array of randomly generated numbers that 
+         serves as the base for the Exact Cover Problem
+    answer1-3: 3 randomly generated arrays of subsets.
+    answer4: none satisfiable questoin
+    correct: correct answer for that subset
+    '''
     counter = 0
 
-    #question object. Arr is the generated array for the question, correct
-    #is the correct ans number. Rest is simple.
+    
     def __init__(self, arr, answer1, answer2, answer3, correct):
         self.arr = arr
         self.answer1 = answer1
@@ -92,15 +99,6 @@ class question:
         self.answer3 = answer3
         self.answer4 = 'none of the above'
         self.correct = correct
-
-    def toString(self):
-        pass
-        #print('Question Array: ', self.arr)
-        #print('1) ', self.answer1)
-        #print('2) ', self.answer2)
-        #print('3) ', self.answer3)
-        #print('4) ', self.answer4)
-        #print('Correct: ', self.correct)
 
 
     def generateOutput(self, index, opts):
@@ -138,16 +136,19 @@ class question:
                     clause_count += 1
 
         output = "p cnf " + str(len(subsets)) + " " + str(clause_count) + "\n" + output
-        #print(output)
 
         filename = opts.out_dir + str(question.counter) + "_" + str(self.correct == index) + ".dimacs"
         question.counter += 1
         with open(filename, "w") as f:
             f.write(output)
 
-
-#currently we stop before generating any full size arrays.
 def GenCorrectAns(question_arr, size):
+    '''
+    Generates an exact cover of the question array using randomly generated subsets
+    question_array: Array of randomly generated numbers that 
+                    serves as the base for the Exact Cover Problem
+    answer: an exact cover of the question array created with randomly generated subsets
+    '''
     answer = []
     while size > 0:
         subset_size = random.randint(1, size)
@@ -160,8 +161,17 @@ def GenCorrectAns(question_arr, size):
         answer.append(curr_subset)
     return answer
 
-#generates the subsets for the answer
+
 def GenSubsets(question_arr, size, arrType):
+    '''
+    Generates random subsets for the Exact Cover Problem
+    question_array: Array of randomly generated numbers that 
+                    serves as the base for the Exact Cover Problem
+    size: integer size of question_array
+    arrType: boolean value to see if subsets should remove values from the array
+             or not
+    answer: returns a list of generated subsets.
+    '''
     answer = []
     while size > 0:
         subset_size = random.randint(1, size)
@@ -181,34 +191,30 @@ def GenSubsets(question_arr, size, arrType):
         answer.append(curr_subset)
     return answer
 
-'''
-#generates all the answers for the question.
-def GenAnswers(question_arr, size):
-    correctAnsNum = random.randint(1,4)
-    answers = []
-    for i in range(3):
-        curr_size = size
-        arrType = random.randint(0,1)
-        if i == (correctAnsNum - 1):
-            answers.append(GenCorrectAns(question_arr.copy(), curr_size))
-        else:
-            answers.append(GenSubsets(question_arr.copy(), curr_size, arrType))
-    return answers, correctAnsNum
-'''
 def GenAnswers(question_array):
+    '''
+    Generates the answers for the Exact Cover Problem
+    question_array: Array of randomly generated numbers that 
+                    serves as the base for the Exact Cover Problem
+    answers: returns the an array of answers to the exact cover problem
+    correctAnsNum: returns which number is the correct answer
+    '''
     correctAnsNum = random.randint(1,4)
     answers = []
     for i in range(3):
-        # curr_size = size
-        # arrType = random.randint(0,1)
         if i == (correctAnsNum - 1):
             answers.append(GenerateProblem(question_array, True))
         else:
             answers.append(GenerateProblem(question_array, False))
     return answers, correctAnsNum
 
-#generates all the questions
+
 def GenTrainData(size, question_num):
+    '''
+    Generates the Exact Cover Problem Questions
+    size: integer representing the size of the array
+    quesiton_num: integer representing the amount of questions to be generated
+    '''
     questions = []
     for i in range(question_num):
         question_arr = []
