@@ -17,12 +17,13 @@ class question:
         self.correct = correct
 
     def toString(self):
-        print('Question Array: ', self.arr)
-        print('1) ', self.answer1)
-        print('2) ', self.answer2)
-        print('3) ', self.answer3)
-        print('4) ', self.answer4)
-        print('Correct: ', self.correct)
+        pass
+        #print('Question Array: ', self.arr)
+        #print('1) ', self.answer1)
+        #print('2) ', self.answer2)
+        #print('3) ', self.answer3)
+        #print('4) ', self.answer4)
+        #print('Correct: ', self.correct)
 
 
     def generateOutput(self, index, opts):
@@ -60,7 +61,7 @@ class question:
                     clause_count += 1
 
         output = "p cnf " + str(len(subsets)) + " " + str(clause_count) + "\n" + output
-        print(output)
+        #print(output)
 
         filename = opts.out_dir + str(question.counter) + "_" + str(self.correct == index) + ".dimacs"
         question.counter += 1

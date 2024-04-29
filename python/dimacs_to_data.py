@@ -34,7 +34,6 @@ def parse_dimacs(filename):
     assert(header[0] == "p")
     n_vars = int(header[2])
     iclauses = [[int(s) for s in line.strip().split(" ")[:-1]] for line in lines[i+1:]]
-    print("n_vars: %d, iclauses: %s \n" % (n_vars, iclauses))
     return n_vars, iclauses
 
 def mk_dataset_filename(opts, n_batches):

@@ -1,17 +1,6 @@
 # generate datasets
-for ty in "train" "test" ; do
-    rm -rf data/$ty/sr5
-    mkdir -p data/$ty/sr5
-    for i in {1..2}; do
-	rm -rf dimacs/$ty/sr5/grp$i
-	mkdir -p dimacs/$ty/sr5/grp$i
-	python python/gen_sr_dimacs.py dimacs/$ty/sr5/grp$i 10 --min_n 10 --max_n 40
-    done;
-    rm -rf dimacs/$ty/sr5/grp3EC
-    mkdir -p dimacs/$ty/sr5/grp3EC
-    python python/genEC_to_dimacs.py dimacs/$ty/sr5/grp3EC/
-    python python/dimacs_to_data.py dimacs/$ty/sr5/grp3EC data/$ty/sr5 60000
-done;
+# DO NOT RUN THIS SCRIPT YET!!!!
+bash scripts/generate_data.sh
 
 # train with number of epochs and run_id
 python python/train.py data/train/sr5 --n_epochs 10 --run_id 100

@@ -1,0 +1,4 @@
+data/*
+dimacs/*
+snapshots/*
+python/__pycache__
