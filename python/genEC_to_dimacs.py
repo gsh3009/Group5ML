@@ -1,7 +1,84 @@
 import argparse
 import random
 
-OUT_DIRECTORY = ""
+#OUT_DIRECTORY = ""
+class exactCoverSolver:
+    # main_set = []
+    # main_set_size = 0
+    # subsets = []
+    subset_sizes = []
+
+    def solve(self, main_set_as_list, subsets):
+        main_set = set(main_set_as_list)
+        # exactCoverSolver.main_set_size = len(main_set)
+        main_set_size = len(main_set)
+        exactCoverSolver.subset_sizes = []
+        for x in range(0, len(subsets)):
+            exactCoverSolver.subset_sizes.append(len(subsets[x]))
+
+        combos_to_check = self.get_combos_rec(0, main_set_size)
+
+        for combo in combos_to_check:
+            union_of_combo = set()
+            for index in combo:
+                union_of_combo = set.union(union_of_combo, subsets[index])
+            if len(union_of_combo) == len(main_set):
+                return True
+
+        return False
+
+    def get_combos_rec(self, index, remaining_size):
+        valid_combos = []
+
+        if remaining_size < 0:
+            return []
+
+        if index == len(exactCoverSolver.subset_sizes):
+            return []
+
+        if index == len(exactCoverSolver.subset_sizes) - 1 and remaining_size == 0:
+            return [[]]
+        elif index == len(exactCoverSolver.subset_sizes) - 1 and remaining_size == exactCoverSolver.subset_sizes[index]:
+            return [[index]]
+
+        with_us = self.get_combos_rec(index + 1, remaining_size - exactCoverSolver.subset_sizes[index])
+        for combo in with_us:
+            combo.append(index)
+            valid_combos.append(combo)
+        without_us = self.get_combos_rec(index + 1, remaining_size)
+        for combo in without_us:
+            valid_combos.append(combo)
+
+        return valid_combos
+
+
+def GenerateRandomSubset(main_set_list):
+    subset = set()
+    while len(subset) == 0:
+        for x in range(0, len(main_set_list)):
+            if random.random() < 0.5:
+                subset.add(main_set_list[x])
+    return subset
+
+
+def GenerateProblem(main_set_as_list, answer):
+    solver = exactCoverSolver()
+
+    # main_set_as_list = [0, 1, 2, 3, 4]
+    subsets = []
+    done = False
+    while not done:
+        subsets.append(GenerateRandomSubset(main_set_as_list))
+        done = solver.solve(main_set_as_list, subsets)
+
+    if answer:  # == True
+        random.shuffle(subsets)
+        return subsets
+        # return main_set_as_list, subsets
+    else:
+        subsets.pop(-1)
+        return subsets
+        # return main_set_as_list, subsets
 
 class question:
     counter = 0
@@ -57,7 +134,7 @@ class question:
 
             for x in range(0, len(subsets_with_num)):
                 for y in range(x+1, len(subsets_with_num)):
-                    output += (subsets_with_num[x] + " " + subsets_with_num[y] + " 0\n")
+                    output += ("-" + subsets_with_num[x] + " " + "-" + subsets_with_num[y] + " 0\n")
                     clause_count += 1
 
         output = "p cnf " + str(len(subsets)) + " " + str(clause_count) + "\n" + output
@@ -104,6 +181,7 @@ def GenSubsets(question_arr, size, arrType):
         answer.append(curr_subset)
     return answer
 
+'''
 #generates all the answers for the question.
 def GenAnswers(question_arr, size):
     correctAnsNum = random.randint(1,4)
@@ -116,6 +194,18 @@ def GenAnswers(question_arr, size):
         else:
             answers.append(GenSubsets(question_arr.copy(), curr_size, arrType))
     return answers, correctAnsNum
+'''
+def GenAnswers(question_array):
+    correctAnsNum = random.randint(1,4)
+    answers = []
+    for i in range(3):
+        # curr_size = size
+        # arrType = random.randint(0,1)
+        if i == (correctAnsNum - 1):
+            answers.append(GenerateProblem(question_array, True))
+        else:
+            answers.append(GenerateProblem(question_array, False))
+    return answers, correctAnsNum
 
 #generates all the questions
 def GenTrainData(size, question_num):
@@ -124,7 +214,7 @@ def GenTrainData(size, question_num):
         question_arr = []
         for j in range(size):
             question_arr.append(j)
-        answers, correct = GenAnswers(question_arr,size)
+        answers, correct = GenAnswers(question_arr)
         q = question(question_arr, answers[0], answers[1], answers[2], correct)
         questions.append(q)
     return questions
@@ -138,7 +228,7 @@ def main():
     opts = parser.parse_args()
     questions = GenTrainData(opts.problem_size, opts.question_num)
     for question in questions:
-        question.toString()
+        #question.toString()
         question.generateOutput(1, opts)
         question.generateOutput(2, opts)
         question.generateOutput(3, opts)
