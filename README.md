@@ -1,6 +1,42 @@
 # To Run
 Make sure you are on a Linux machine that has Python3 and some distribution of Anaconda installed for environment management.
 
+Make sure that the Anaconda shell is activated. To initialize the environment required for this project, make sure you are in the home directory of the project and run the command:
+```
+conda env create -f environment_neurosat.yml
+```
+
+Then activate the environment with the following command:
+```
+conda activate neurosatL
+```
+
+Run the following script to get the Minisolver used for testing and generate the datasets for the experiments.
+```
+chmod +x ./scripts/setup_experiments.sh
+./scripts/setup_experiments.sh
+```
+
+Run the following commands to run all the experiments at once. These experiments can also be called individually by calling their corresponding scripts (scripts/rounds_experiment, scripts/lr_decay_experiment, scripts/message_passing_layers). All together the results can be difficult to interpret, but the epochs and result of training are output to the console, containing information surrounding the loss for each epoch/test as well as the resulting confusion matrix.
+```
+chmod +x ./scripts/run_experiments.sh
+./scripts/run_experiments.sh
+```
+
+These take quite a while to run (upwards of 3 hours altogether in some cases).
+
+We wrote our code to generate problems in python/genEC_to_dimacs.py and the scripts to run various experiments are as follows:
+scripts/generate_data.sh
+scripts/lr_decay_experiment.sh
+scripts/message_passing_layers.sh
+scripts/rounds_experiment.sh
+scripts/run_experiments.sh
+scripts/setup_experiments.sh
+
+The control NeuroSAT model uses the sr5 path for train and testing data while our data uses the grp3EC folder. All other scripts were left largely the same as they were in the original NeuroSAT experiment as all hyperparameters are tuned via command line argument.
+
+
+
 
 # Below is the README from https://github.com/dselsam/neurosat/
 
