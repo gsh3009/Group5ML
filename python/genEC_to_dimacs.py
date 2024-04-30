@@ -2,15 +2,22 @@ import argparse
 import random
 
 #OUT_DIRECTORY = ""
+
+'''
+The class that manages data for solving exact cover problems. Used in problem generation
+to ensure that problems have the correct true class.
+'''
 class exactCoverSolver:
-    # main_set = []
-    # main_set_size = 0
-    # subsets = []
-    subset_sizes = []
+    subset_sizes = []  # current list of subset sizes
 
     def solve(self, main_set_as_list, subsets):
+        '''
+        Function that solves an exact cover problem.
+        self: An exactCoverSolver object.
+        main_set_as_list: The target set of the exact cover problem, stored as a list.
+        subsets: The list of subsets (which are stored as sets).
+        '''
         main_set = set(main_set_as_list)
-        # exactCoverSolver.main_set_size = len(main_set)
         main_set_size = len(main_set)
         exactCoverSolver.subset_sizes = []
         for x in range(0, len(subsets)):
@@ -28,6 +35,13 @@ class exactCoverSolver:
         return False
 
     def get_combos_rec(self, index, remaining_size):
+        '''
+        Recursive function that gets all combinations of the remaining subsets (the subsets after the 
+        index parameter) that add up to the size of the target set.
+        self: An exactCoverSolver object.
+        index: The index of the set we are responsible for.
+        remaining_size: The size of the target set, minus the size of all previously included subsets.
+        '''
         valid_combos = []
 
         if remaining_size < 0:
@@ -53,6 +67,10 @@ class exactCoverSolver:
 
 
 def GenerateRandomSubset(main_set_list):
+    '''
+    Generates a random subset of the provided main set.
+    main_set_list: The main set (stored as a list).
+    '''
     subset = set()
     while len(subset) == 0:
         for x in range(0, len(main_set_list)):
@@ -62,6 +80,11 @@ def GenerateRandomSubset(main_set_list):
 
 
 def GenerateProblem(main_set_as_list, answer):
+     '''
+    Generates an exact cover problem.
+    main_set_as_list: The main set that will be used for the problem (stored as a list).
+    answer: The intended answer for the problem (True or False)
+    '''
     solver = exactCoverSolver()
 
     # main_set_as_list = [0, 1, 2, 3, 4]
@@ -102,6 +125,11 @@ class question:
 
 
     def generateOutput(self, index, opts):
+        '''
+        Generates the output file for the exact cover problem with the given index
+        index: The index of the problem to export.
+        opts: The options passed into the program, used to find the output directory.
+        '''
         if index == 1:
             subsets = self.answer1
         elif index == 2:
