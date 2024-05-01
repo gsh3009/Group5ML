@@ -17,7 +17,7 @@ chmod +x ./scripts/setup_experiments.sh
 ./scripts/setup_experiments.sh
 ```
 
-Run the following commands to run all the experiments at once. These experiments can also be called individually by calling their corresponding scripts (scripts/rounds_experiment, scripts/lr_decay_experiment, scripts/message_passing_layers). All together the results can be difficult to interpret, but the epochs and result of training are output to the console, containing information surrounding the loss for each epoch/test as well as the resulting confusion matrix.
+Run the following commands to run all the experiments at once. These experiments can also be called individually by calling their corresponding scripts (scripts/rounds_experiment, scripts/lr_decay_experiment, scripts/message_passing_layers). All together the results can be difficult to interpret, but the epochs and result of training are output to the console, containing information such as the loss for each epoch/test as well as the resulting confusion matrix in (FF, FT, TF, TT) format.
 ```
 chmod +x ./scripts/run_experiments.sh
 ./scripts/run_experiments.sh
